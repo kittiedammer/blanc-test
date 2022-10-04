@@ -1,0 +1,29 @@
+<div class="table_container">
+    <p-table *ngIf="store.getClients$ | async as clients; else loading" [value]="clients" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Наименование организации</th>
+                <th>ИНН</th>
+                <th>Дата открытия счета</th>
+                <th>Остаток на счёте</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-client>
+            <tr (click)="appService.goClientCard(client.id)" style="cursor: pointer">
+                <td>{{client.organizationName}}</td>
+                <td>{{client.ITN}}</td>
+                <td>{{client.date | date:'d, MMMM, y'}}</td>
+                <!-- 
+                    Мне показалось, что вместо кастомной компоненты, здесь логичнее использовать кастомный пайп 
+                    П.С. И да, я не понял, что значит 
+                    ... и минимальное количество знаков до запятой, сделал без этого пункта
+                -->
+                <td>{{client.accountBalance | customCurrency : 2 : client.currencyBalance}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<ng-template #loading>
+    <p-progressSpinner></p-progressSpinner>
+</ng-template>

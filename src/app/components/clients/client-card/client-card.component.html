@@ -1,0 +1,20 @@
+<div class="container">
+    <div *ngIf="store.getClient$ | async as client; else loading" class="content">
+        <div class="header">
+            <h2>Карточка организации: {{client.organizationName}}</h2>
+            <u style="cursor: pointer" (click)="appService.goClients()">←&nbsp;Назад</u>
+        </div>
+        <h5>Информация</h5>
+        <ul>
+            <li>ИНН: {{client.ITN}}</li>
+            <li>Дата открытия счета: {{client.date}}</li>
+            <li>Остаток на счёте: {{client.accountBalance}}</li>
+        </ul>
+        <app-client-phone [phone]="client.phone" [id]="client.id"></app-client-phone>
+        <app-transactions [transactions]="client.transactions"></app-transactions>
+    </div>
+</div>
+
+<ng-template #loading>
+    <p-progressSpinner></p-progressSpinner>
+</ng-template>

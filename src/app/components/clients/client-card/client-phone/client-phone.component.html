@@ -1,0 +1,27 @@
+<div class="p-grid p-fluid" style="margin-bottom: 2rem">
+    <div>
+        <span>Телефон</span>
+        <div style="display: flex;">
+            <div [formGroup]="clientGroup">
+                <p-inputMask mask="+7 (999) 999-9999" formControlName="phone"
+                    placeholder="+7 (999) 999-9999"></p-inputMask>
+            </div>
+            <button pButton pRipple type="button" *ngIf="!canEdit" (click)="enablePhoneInput()"
+                class="custom_button p-button-raised" label="Изменить"></button>
+            <button [disabled]="clientGroup.controls['phone'].errors" pButton pRipple type="button" *ngIf="canEdit" (click)="showModal()"
+                class="custom_button p-button-raised p-button-success" label="Ок"></button>
+            <button pButton pRipple type="button" *ngIf="canEdit" (click)="disablePhoneInput()"
+                class="custom_button p-button-raised p-button-danger" label="Отмена"></button>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Вы действительно хотите изменить телефон?" [(visible)]="displayModal" [modal]="true"
+    [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" *ngIf="canEdit" (click)="confirmModal()"
+            class="custom_button p-button-raised p-button-success" label="Ок"></button>
+        <button pButton pRipple type="button" *ngIf="canEdit" (click)="displayModal=false"
+            class="custom_button p-button-raised p-button-danger" label="Отмена"></button>
+    </ng-template>
+</p-dialog>
